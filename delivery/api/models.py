@@ -1,3 +1,5 @@
+from random import randint
+
 from django.core.validators import (
     MaxValueValidator, MinValueValidator, RegexValidator)
 from django.db import models
@@ -10,6 +12,12 @@ CAR_PLATE_LENGTH=5
 CAR_PLATE_MIN_NUMBER=1000
 CAR_PLATE_MAX_NUMBER=9999
 CAR_PLATE_PATTERN=r'[1-9][0-9]{3}[A-Z]$'
+
+
+def random_location():
+    """Функция получения рандомной локации для создания автомобиля."""
+    random_id = randint(1, Location.objects.latest('id').id)
+    return Location.objects.get(id=random_id)
 
 
 class Location(models.Model):
@@ -89,9 +97,7 @@ class Car(models.Model):
     current_location = models.ForeignKey(
         Location,
         on_delete=models.PROTECT,
-        null=False,
-        blank=False,
-        default=None, # TODO: add random
+        default=random_location,
         related_name='where_car',
         verbose_name='Текущая локация',
     )
