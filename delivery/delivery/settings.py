@@ -29,12 +29,13 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fsgdadsfae#^F#&RFG$&#FG@daasd')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'api',
+    'drf_yasg',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
