@@ -8,6 +8,7 @@ from django.db import models
 MIN_WEIGHT_OF_CARGO=1
 MAX_WEIGHT_OF_CARGO=1000
 MAX_LENGTH_OF_CARGO_DESCRIPTION=500
+CARGO_ZIP_MAX_LENGTH = 5
 CAR_PLATE_LENGTH=5
 CAR_PLATE_MIN_NUMBER=1000
 CAR_PLATE_MAX_NUMBER=9999
@@ -172,11 +173,3 @@ class Cargo(models.Model):
         verbose_name = 'Груз'
         verbose_name_plural = 'Грузы'
         ordering = ('-id',)
-        constraints = [
-            models.UniqueConstraint(
-                fields=('pick_up', 'delivery_to'),
-                name='unique_pick_up_delivery_to',
-                violation_error_message='Одинаковое местоположение груза и '
-                                        'доставки',
-            )
-        ]
