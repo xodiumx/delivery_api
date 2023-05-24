@@ -2,6 +2,7 @@ from geopy import distance
 
 from .models import Car
 
+
 DISTANCE_DIFF = 450
 
 
@@ -11,11 +12,13 @@ def calculate_count_of_cars(cargo):
     """
     cargo_coordinates = (cargo.pick_up.lat, cargo.pick_up.lng)
     count = 0
+    cars = []
     for car in Car.objects.all():
         car_coordinates = car.current_location.lat, car.current_location.lng
         dist = distance.distance(cargo_coordinates, car_coordinates).miles
         if dist <= DISTANCE_DIFF:
             count += 1
+            cars.append(car.id)
     return count
 
 
@@ -36,4 +39,5 @@ def get_info_about_cars(cargo):
 
         car_info['distance'] = f'{dist:.2f} miles'
         cars.append(car_info)
+
     return cars
