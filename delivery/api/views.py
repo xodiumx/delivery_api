@@ -8,6 +8,13 @@ from .serializers import (
     CarSerializer, CargoInfoSerializer, CargoCreateSerializer)
 
 
+class CarViewSet(UpdateModelMixin, GenericViewSet):
+
+    queryset = Car.objects.all()
+    http_method_names = ('patch',)
+    serializer_class = CarSerializer
+
+
 class CargoViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin,
                     DestroyModelMixin, UpdateModelMixin, GenericViewSet):
     
@@ -19,9 +26,3 @@ class CargoViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin,
             return CargoInfoSerializer
         if self.action in ('create', 'partial_update'):
             return CargoCreateSerializer
-        
-
-class CarViewSet(UpdateModelMixin, GenericViewSet):
-    queryset = Car.objects.all()
-    http_method_names = ('patch',)
-    serializer_class = CarSerializer

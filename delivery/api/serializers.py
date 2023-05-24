@@ -5,11 +5,8 @@ from rest_framework.serializers import (
     Serializer, SerializerMethodField, CharField, IntegerField
 )
 
-from .exceptions import WeightException, SameValueException
-from .models import (
-    Cargo, Location, MAX_LENGTH_OF_CARGO_DESCRIPTION,
-    MAX_WEIGHT_OF_CARGO, MIN_WEIGHT_OF_CARGO, CARGO_ZIP_MAX_LENGTH 
-)
+from .exceptions import SameValueException
+from .models import Car, Cargo, Location
 
 
 class CargoInfoSerializer(ModelSerializer):
@@ -51,7 +48,7 @@ class CargoCreateSerializer(ModelSerializer):
     def update(self, instance, validated_data):
         """
         Для обновления груза, берем новое значение из validated_data, 
-        если его нет берем старое.
+        если его нет берем старое из instance.
         """
         instance.weight = validated_data.get('weight', instance.weight)
         instance.description = validated_data.get(
@@ -70,4 +67,35 @@ class CargoCreateSerializer(ModelSerializer):
 
 
 class CarSerializer(ModelSerializer):
-    ...
+
+    class Meta:
+        model = Car
+        fields = ('plate', 'current_location', 'load_capacity')
+    
+    def validate(self, data):
+        """Достаем значения 'current_location' из не десериализованной data."""
+        data['current_location'] = self.initial_data.get('current_location')
+        return data
+
+    def update(self, instance, validated_data):
+        """
+        Для обновления груза, берем новое значение из validated_data, 
+        если его нет берем старое из instance.
+        """
+        current_location = validated_data.get('current_location')
+        if current_location:
+            instance.current_location = get_object_or_404(
+                Location, zip_index=current_location)      
+        instance.plate = validated_data.get('plate', instance.plate)
+        instance.load_capacity = validated_data.get(
+            'load_capacity', instance.load_capacity)
+        return instance
+    
+    def to_representation(self, instance):
+        """
+        Для ответа меняем id на zip_index
+        """
+        data = super().to_representation(instance)
+        data['current_location'] = str(instance.current_location)
+        instance.save()
+        return data
