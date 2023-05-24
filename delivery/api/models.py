@@ -71,7 +71,7 @@ class Location(models.Model):
         ordering = ('city',)
     
     def __str__(self):
-        return self.city
+        return self.zip_index
 
 
 class Car(models.Model):
@@ -98,6 +98,7 @@ class Car(models.Model):
         Location,
         on_delete=models.PROTECT,
         default=random_location,
+        db_index=True,
         related_name='where_car',
         verbose_name='Текущая локация',
     )
@@ -175,7 +176,7 @@ class Cargo(models.Model):
             models.UniqueConstraint(
                 fields=('pick_up', 'delivery_to'),
                 name='unique_pick_up_delivery_to',
-                violation_error_message='Одинаковое местоположения груза и '
+                violation_error_message='Одинаковое местоположение груза и '
                                         'доставки',
             )
         ]
