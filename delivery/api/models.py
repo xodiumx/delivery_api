@@ -169,6 +169,9 @@ class Cargo(models.Model):
         blank=False
     )
 
+    def __str__(self):
+        return f'Груз {self.id}'
+
     class Meta:
         verbose_name = 'Груз'
         verbose_name_plural = 'Грузы'

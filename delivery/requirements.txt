@@ -3,6 +3,7 @@ Django==4.1.8
 django-filter==2.4.0
 djangorestframework==3.13.1
 drf-yasg==1.21.3
+geopy==2.3.0
 gunicorn==20.0.4
 psycopg2-binary==2.9.4
 pytest==6.2.4
