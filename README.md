@@ -82,6 +82,16 @@ api/v1/cars/{id}/ {PATCH}
 ```
 #### Подробная документация по endpoint-y `swagger/`
 
+## Для загрузки и удаления `uszips.csv` созданы команды:
+- Загрузка:
+```
+python manage.py import_data --load
+```
+- Удаление
+```
+python manage.py import_data --delete
+```
+
 ## Установка проекта через `docker`
 
 1. клонируйте репозиторий:
@@ -118,3 +128,10 @@ psql -U postgres
 CREATE DATABASE delivery;
 ```
 6. В контейнере `back` выполните команду:
+```
+python3 manage.py makemigrations --force-color -v 3 \
+&& python3 manage.py migrate --force-color -v 3 \
+&& python3 manage.py collectstatic \
+&& python3 manage.py loaddata fixtures.json
+```
+- superuser - `admin:admin`
