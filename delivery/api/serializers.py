@@ -13,8 +13,8 @@ class CargoToRepresentation:
         Для ответа меняем id на zip_index
         """
         data = super().to_representation(instance)
-        data['pick_up'] = str(instance.pick_up)
-        data['delivery_to'] = str(instance.delivery_to)
+        data['pick_up'] = instance.pick_up.get_full_address()
+        data['delivery_to'] = instance.delivery_to.get_full_address()
         return data
 
 
@@ -125,6 +125,6 @@ class CarSerializer(ModelSerializer):
         Для ответа меняем id на zip_index
         """
         data = super().to_representation(instance)
-        data['current_location'] = str(instance.current_location)
+        data['current_location'] = instance.current_location.get_full_address()
         instance.save()
         return data

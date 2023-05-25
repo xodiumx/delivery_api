@@ -73,6 +73,9 @@ class Location(models.Model):
     
     def __str__(self):
         return self.zip_index
+    
+    def get_full_address(self):
+        return f'{self.city} {self.state} {self.zip_index}'
 
 
 class Car(models.Model):
