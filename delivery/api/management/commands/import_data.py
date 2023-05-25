@@ -17,7 +17,7 @@ def read_csv(name_file):
     path = os.path.join('static/data', name_file)
     with open(path, encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file,
-                                fieldnames=('zip_index', 'lat', 'lng', 
+                                fieldnames=('zip_index', 'lat', 'lng',
                                             'city', 'state_id', 'state'),
                                 restkey='other',
                                 delimiter=',',)

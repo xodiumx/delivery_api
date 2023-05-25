@@ -1,18 +1,17 @@
 from random import randint
 
-from django.core.validators import (
-    MaxValueValidator, MinValueValidator, RegexValidator)
+from django.core.validators import (MaxValueValidator, MinValueValidator,
+                                    RegexValidator)
 from django.db import models
 
-
-MIN_WEIGHT_OF_CARGO=1
-MAX_WEIGHT_OF_CARGO=1000
-MAX_LENGTH_OF_CARGO_DESCRIPTION=500
+MIN_WEIGHT_OF_CARGO = 1
+MAX_WEIGHT_OF_CARGO = 1000
+MAX_LENGTH_OF_CARGO_DESCRIPTION = 500
 CARGO_ZIP_MAX_LENGTH = 5
-CAR_PLATE_LENGTH=5
-CAR_PLATE_MIN_NUMBER=1000
-CAR_PLATE_MAX_NUMBER=9999
-CAR_PLATE_PATTERN=r'[1-9][0-9]{3}[A-Z]$'
+CAR_PLATE_LENGTH = 5
+CAR_PLATE_MIN_NUMBER = 1000
+CAR_PLATE_MAX_NUMBER = 9999
+CAR_PLATE_PATTERN = r'[1-9][0-9]{3}[A-Z]$'
 
 
 def random_location():
@@ -66,6 +65,7 @@ class Location(models.Model):
         null=False,
         blank=False,
     )
+
     class Meta:
         verbose_name = 'Локация'
         verbose_name_plural = 'Локации'
@@ -116,6 +116,7 @@ class Car(models.Model):
                 message=f'Минимальный вес груза {MIN_WEIGHT_OF_CARGO}')
         ),
     )
+
     class Meta:
         verbose_name = 'Автомобиль'
         verbose_name_plural = 'Автомобили'
@@ -142,7 +143,7 @@ class Cargo(models.Model):
         verbose_name='Откуда',
     )
     delivery_to = models.ForeignKey(
-        Location, 
+        Location,
         on_delete=models.PROTECT,
         null=False,
         blank=False,

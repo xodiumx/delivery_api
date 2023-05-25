@@ -1,14 +1,13 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import (
-    CreateModelMixin, DestroyModelMixin, ListModelMixin, 
-    RetrieveModelMixin, UpdateModelMixin, )
+from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
+                                   ListModelMixin, RetrieveModelMixin,
+                                   UpdateModelMixin)
 from rest_framework.viewsets import GenericViewSet
 
-from .models import Car, Cargo
 from .filters import CargoFilter
-from .serializers import (
-    CarSerializer, CargoInfoListSerializer, CargoInfoSerializer,
-    CargoCreateSerializer)
+from .models import Car, Cargo
+from .serializers import (CargoCreateSerializer, CargoInfoListSerializer,
+                          CargoInfoSerializer, CarSerializer)
 
 
 class CarViewSet(UpdateModelMixin, GenericViewSet):
@@ -19,7 +18,7 @@ class CarViewSet(UpdateModelMixin, GenericViewSet):
 
 
 class CargoViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin,
-                    DestroyModelMixin, UpdateModelMixin, GenericViewSet):
+                   DestroyModelMixin, UpdateModelMixin, GenericViewSet):
     
     queryset = Cargo.objects.select_related('pick_up', 'delivery_to').all()
     http_method_names = ('get', 'post', 'patch', 'delete')
@@ -33,3 +32,4 @@ class CargoViewSet(ListModelMixin, RetrieveModelMixin, CreateModelMixin,
             return CargoInfoSerializer
         if self.action in ('create', 'partial_update'):
             return CargoCreateSerializer
+        return None

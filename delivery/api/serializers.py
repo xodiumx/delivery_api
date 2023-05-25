@@ -1,8 +1,5 @@
 from django.shortcuts import get_object_or_404
-
-from rest_framework.serializers import (
-    ModelSerializer, SerializerMethodField,
-)
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from .exceptions import SameValueException
 from .models import Car, Cargo, Location
@@ -53,19 +50,22 @@ class CargoCreateSerializer(CargoToRepresentation, ModelSerializer):
 
     def validate(self, data):
         """
-        Достаем значения 'pick_up' и 'delivery' 
-        из не десериализованной data
+        - Достаем значения 'pick_up' и 'delivery' из не десериализованной data
+        - Проверки if not, если используем update без этих полей
         """
-        data['pick_up'] = self.initial_data.get('pick_up')
-        data['delivery_to'] = self.initial_data.get('delivery_to')
+        pick_up = self.initial_data.get('pick_up')
+        delivery_to = self.initial_data.get('delivery_to')
 
-        if not data.get('pick_up'):
+        data['pick_up'] = pick_up
+        data['delivery_to'] = delivery_to
+
+        if not pick_up:
             data.pop('pick_up')
 
-        if not data.get('delivery_to'):
+        if not delivery_to:
             data.pop('delivery_to')
 
-        if data.get('pick_up') and data.get('pick_up') == data.get('delivery_to'):
+        if pick_up and pick_up == delivery_to:
             raise SameValueException(
                 {'detail': 'Одинаковое местоположение груза и доставки'})
         return data
@@ -82,7 +82,7 @@ class CargoCreateSerializer(CargoToRepresentation, ModelSerializer):
 
     def update(self, instance, validated_data):
         """
-        Для обновления груза, берем новое значение из validated_data, 
+        Для обновления груза, берем новое значение из validated_data,
         если его нет берем старое из instance.
         """
         instance.pick_up = validated_data.get('pick_up', instance.pick_up)
@@ -108,13 +108,13 @@ class CarSerializer(ModelSerializer):
 
     def update(self, instance, validated_data):
         """
-        Для обновления груза, берем новое значение из validated_data, 
+        Для обновления груза, берем новое значение из validated_data,
         если его нет берем старое из instance.
         """
         current_location = validated_data.get('current_location')
         if current_location:
             instance.current_location = get_object_or_404(
-                Location, zip_index=current_location)      
+                Location, zip_index=current_location)
         instance.plate = validated_data.get('plate', instance.plate)
         instance.load_capacity = validated_data.get(
             'load_capacity', instance.load_capacity)

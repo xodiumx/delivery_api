@@ -1,4 +1,3 @@
-from django.db.models import Count, Q
 from django_filters import rest_framework as filter
 
 from .models import Cargo
@@ -24,5 +23,6 @@ class CargoFilter(filter.FilterSet):
         fields = ('weight', 'distance')
 
     def filter_distance(self, queryset, name, value):
-        # TODO: мили ближайших машин до грузов (Не понял, как это связано с фильтрами)
+        # TODO: мили ближайших машин до грузов
+        # (Не понял, как это связано с фильтрами)
         return queryset
