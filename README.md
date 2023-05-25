@@ -58,8 +58,8 @@ api/v1/cars/{id}/ {PATCH}
 Ответ:
 ```
 {
-  "pick_up": "00601",
-  "delivery_to": "00602",
+  "pick_up": "Adjuntas Puerto Rico 00601",
+  "delivery_to": "Aguada Puerto Rico 00602",
   "weight": 600,
   "description": "600 kg of cookies"
 }
@@ -74,8 +74,8 @@ api/v1/cars/{id}/ {PATCH}
 Ответ:
 ```
 {
-  "pick_up": "00601",
-  "delivery_to": "00602",
+  "pick_up": "Adjuntas Puerto Rico 00601",
+  "delivery_to": "Aguada Puerto Rico 00602",
   "weight": 1000,
   "description": "mistake, 1000 kg of cookies"
 }
