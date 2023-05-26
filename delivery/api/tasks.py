@@ -8,6 +8,7 @@ def update_locations_of_all_cars():
     """
     Функция обновления локаций у всех автомобилей, запускается каждые 3 мин.
     """
-    for car in Car.objects.all():
+    cars = Car.objects.all()
+    for car in cars:
         car.current_location = random_location()
-        car.save()
+    Car.objects.bulk_update(cars, ('current_location',))
