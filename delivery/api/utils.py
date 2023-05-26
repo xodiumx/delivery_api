@@ -9,7 +9,7 @@ def calculate_count_of_cars(cargo):
     """
     Функция расчета количества ближайших автомобилей до груза (макс. 450 миль).
     """
-    cargo_coordinates = (cargo.pick_up.lat, cargo.pick_up.lng)
+    cargo_coordinates = cargo.pick_up.lat, cargo.pick_up.lng
     count = 0
     for car in Car.objects.all():
         car_coordinates = car.current_location.lat, car.current_location.lng
@@ -25,7 +25,7 @@ def get_info_about_cars(cargo):
         - plate: автомобильный номер
         - distance: расстояние от автомобиля до груза
     """
-    cargo_coordinates = (cargo.pick_up.lat, cargo.pick_up.lng)
+    cargo_coordinates = cargo.pick_up.lat, cargo.pick_up.lng
     cars = []
     for car in Car.objects.all():
         car_info = {}

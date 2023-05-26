@@ -118,6 +118,7 @@ class CarSerializer(ModelSerializer):
         instance.plate = validated_data.get('plate', instance.plate)
         instance.load_capacity = validated_data.get(
             'load_capacity', instance.load_capacity)
+        instance.save()
         return instance
     
     def to_representation(self, instance):
@@ -126,5 +127,4 @@ class CarSerializer(ModelSerializer):
         """
         data = super().to_representation(instance)
         data['current_location'] = instance.current_location.get_full_address()
-        instance.save()
         return data
