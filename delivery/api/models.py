@@ -16,8 +16,9 @@ CAR_PLATE_PATTERN = r'[1-9][0-9]{3}[A-Z]$'
 
 def random_location():
     """Функция получения рандомной локации для создания автомобиля."""
-    random_id = randint(1, Location.objects.latest('id').id)
-    return Location.objects.get(id=random_id)
+    locations = Location.objects.all()
+    random_id = randint(1, locations[len(locations) - 1].id)
+    return locations[random_id]
 
 
 class Location(models.Model):
