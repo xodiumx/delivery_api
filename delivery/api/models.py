@@ -34,14 +34,12 @@ class Location(models.Model):
     city = models.CharField(
         'Город',
         max_length=100,
-        db_index=True,
         null=False,
         blank=False,
     )
     state = models.CharField(
         'Штат',
         max_length=100,
-        db_index=True,
         null=False,
         blank=False,
     )
@@ -55,14 +53,12 @@ class Location(models.Model):
     lat = models.CharField(
         'Широта',
         max_length=20,
-        db_index=True,
         null=False,
         blank=False,
     )
     lng = models.CharField(
         'Долгота',
         max_length=20,
-        db_index=True,
         null=False,
         blank=False,
     )
@@ -72,10 +68,10 @@ class Location(models.Model):
         verbose_name_plural = 'Локации'
         ordering = ('city',)
     
-    def __str__(self):
+    def __str__(self) -> str:
         return self.zip_index
     
-    def get_full_address(self):
+    def get_full_address(self) -> str:
         return f'{self.city} {self.state} {self.zip_index}'
 
 
@@ -125,7 +121,7 @@ class Car(models.Model):
         verbose_name = 'Автомобиль'
         verbose_name_plural = 'Автомобили'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.plate
 
 
@@ -174,10 +170,10 @@ class Cargo(models.Model):
         blank=False
     )
 
-    def __str__(self):
-        return f'Груз {self.id}'
-
     class Meta:
         verbose_name = 'Груз'
         verbose_name_plural = 'Грузы'
         ordering = ('-id',)
+    
+    def __str__(self) -> str:
+        return f'Груз {self.id}'

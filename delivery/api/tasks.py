@@ -6,7 +6,7 @@ from .models import Car, Location
 
 
 @app.task
-def update_locations_of_all_cars():
+def update_locations_of_all_cars() -> None:
     """
     Функция обновления локаций у всех автомобилей, запускается каждые 3 мин.
     """

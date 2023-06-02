@@ -1,11 +1,11 @@
 from geopy import distance
 
-from .models import Car
+from .models import Car, Cargo
 
 DISTANCE_DIFF = 450
 
 
-def calculate_count_of_cars(cargo):
+def calculate_count_of_cars(cargo: Cargo) -> int:
     """
     Функция расчета количества ближайших автомобилей до груза (макс. 450 миль).
     """
@@ -19,7 +19,7 @@ def calculate_count_of_cars(cargo):
     return count
 
 
-def get_info_about_cars(cargo):
+def get_info_about_cars(cargo: Cargo) -> list:
     """
     Получения информации о автомобилях:
         - plate: автомобильный номер

@@ -38,6 +38,8 @@ CSRF_TRUSTED_ORIGINS = [os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost')]
 INSTALLED_APPS = [
     'api',
     'drf_yasg',
+    'django_filters',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

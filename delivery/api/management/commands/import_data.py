@@ -3,7 +3,8 @@ import os
 
 import django.db.utils
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandParser
+from django.db.models.base import ModelBase
 
 from ...models import Location
 
@@ -12,7 +13,7 @@ DATA_TABLES = {
 }
 
 
-def read_csv(name_file):
+def read_csv(name_file: str) -> list:
     """Считываем csv файл и добавляем к каждому элементу поле id."""
     path = os.path.join('static/data', name_file)
     with open(path, encoding='utf-8') as csv_file:
@@ -30,13 +31,13 @@ def read_csv(name_file):
         return result
 
 
-def load_data(model, name_file):
+def load_data(model: ModelBase, name_file: str) -> None:
     """Загрузка данных по модели."""
     table = read_csv(name_file)
     model.objects.bulk_create(model(**row) for row in table)
 
 
-def delete_data():
+def delete_data() -> None:
     """Удаление всех таблиц из базы данных."""
     for model in DATA_TABLES:
         model.objects.all().delete()
@@ -45,7 +46,7 @@ def delete_data():
 class Command(BaseCommand):
     help = 'Импорт данных из csv в базу данных'
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             '--load',
             action='store_true',
@@ -57,7 +58,7 @@ class Command(BaseCommand):
             help='Удаление всех данных из базы данных'
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args: tuple, **options: dict) -> None:
         try:
             if options['load']:
                 for model, name_file in DATA_TABLES.items():

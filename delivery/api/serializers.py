@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from django.shortcuts import get_object_or_404
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
@@ -8,7 +10,7 @@ from .utils import calculate_count_of_cars, get_info_about_cars
 
 class CargoToRepresentation:
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: Cargo) -> OrderedDict:
         """
         Для ответа меняем id на zip_index
         """
@@ -26,7 +28,7 @@ class CargoInfoSerializer(CargoToRepresentation, ModelSerializer):
         model = Cargo
         fields = ('pick_up', 'delivery_to', 'cars')
 
-    def get_cars(self, obj):
+    def get_cars(self, obj: Cargo) -> list:
         return get_info_about_cars(obj)
 
 
@@ -38,7 +40,7 @@ class CargoInfoListSerializer(CargoToRepresentation, ModelSerializer):
         model = Cargo
         fields = ('pick_up', 'delivery_to', 'count_of_cars')
     
-    def get_count_of_cars(self, obj):
+    def get_count_of_cars(self, obj: Cargo) -> int:
         return calculate_count_of_cars(obj)
 
 
@@ -48,7 +50,7 @@ class CargoCreateSerializer(CargoToRepresentation, ModelSerializer):
         model = Cargo
         fields = ('pick_up', 'delivery_to', 'weight', 'description')
 
-    def validate(self, data):
+    def validate(self, data: OrderedDict) -> OrderedDict:
         """
         - Достаем значения 'pick_up' и 'delivery' из не десериализованной data
         - Проверки if not, если используем update без этих полей
@@ -70,7 +72,7 @@ class CargoCreateSerializer(CargoToRepresentation, ModelSerializer):
                 {'detail': 'Одинаковое местоположение груза и доставки'})
         return data
     
-    def create(self, validated_data):
+    def create(self, validated_data: dict) -> Cargo:
         """
         Для создания, проверям есть ли локации с такими индексами в базе.
         """
@@ -80,7 +82,7 @@ class CargoCreateSerializer(CargoToRepresentation, ModelSerializer):
             Location, zip_index=self.validated_data.get('delivery_to'))
         return Cargo.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Cargo, validated_data: dict) -> Cargo:
         """
         Для обновления груза, берем новое значение из validated_data,
         если его нет берем старое из instance.
@@ -101,12 +103,12 @@ class CarSerializer(ModelSerializer):
         model = Car
         fields = ('plate', 'current_location', 'load_capacity')
     
-    def validate(self, data):
+    def validate(self, data: OrderedDict) -> OrderedDict:
         """Достаем значения 'current_location' из не десериализованной data."""
         data['current_location'] = self.initial_data.get('current_location')
         return data
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Car, validated_data: dict):
         """
         Для обновления груза, берем новое значение из validated_data,
         если его нет берем старое из instance.
@@ -121,7 +123,7 @@ class CarSerializer(ModelSerializer):
         instance.save()
         return instance
     
-    def to_representation(self, instance):
+    def to_representation(self, instance: Car) -> OrderedDict:
         """
         Для ответа меняем id на zip_index
         """
