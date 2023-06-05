@@ -3,8 +3,8 @@ from collections import OrderedDict
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from .models import Car, Cargo
-from .utils import (CargoService, CarService, calculate_count_of_cars,
-                    get_info_about_cars)
+from .services import CargoService, CarService
+from .utils import calculate_count_of_cars, get_info_about_cars
 
 
 class CargoToRepresentation:
