@@ -1,4 +1,4 @@
-# Тестовое задание для компании *welbex.tech*
+# Delivery api
 
 ![DjangoREST](https://img.shields.io/badge/DJANGO-REST-000000?style=for-the-badge&logo=django&logoColor=white&color=3F888F&labelColor=black) ![Swagger](https://img.shields.io/badge/swagger-000000?style=for-the-badge&logo=python&logoColor=white) ![PEP8](https://img.shields.io/badge/pep8-000000?style=for-the-badge&logo=python&logoColor=white) ![Celery](https://img.shields.io/badge/celery-3F888F?style=for-the-badge&logo=python&logoColor=white) ![Redis](https://img.shields.io/badge/redis-3F888F?style=for-the-badge&logo=redis&logoColor=white) ![Postgres](https://img.shields.io/badge/postgresql-3F888F?style=for-the-badge&logo=postgresql&logoColor=white)
 
